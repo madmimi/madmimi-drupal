@@ -1,0 +1,5 @@
+; $Id: madmimi.info,v 1.2 2010/03/31 15:14:17 elliotttt Exp $
+name = Mad Mimi
+description = Routes all Drupal mail to Mad Mimi email service
+package = Mail
+core = 6.x

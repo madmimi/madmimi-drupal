@@ -1,0 +1,47 @@
+<?php
+// $Id: madmimi.module,v 1.5 2010/05/31 21:13:08 elliotttt Exp $
+/**
+ * @file madmimi.module
+ * Adds email support for Mad Mimi email service.
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+ 
+function madmimi_init() {
+  variable_set('smtp_library', drupal_get_path('module', 'madmimi') .'/madmimi.mail.inc');
+  
+}
+
+function madmimi_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#madmimi':
+      return '<p>'. t('Requires a paid Mad Mimi account with API access. Available <a href="http://www.madmimi.com">here</a>.') .'</p>' ;
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function madmimi_menu() { 
+  // This is the minimum information you can provide for a menu item.
+  $items['admin/settings/madmimi'] = array(
+    'title' => 'Mad Mimi',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer site configuration'),
+    'page arguments' => array('madmimi_admin_settings'),
+    'file' => 'madmimi.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_mail().
+ */
+function madmimi_mail($key, &$message, $params) {
+  if ($key == 'smtp-test') {
+    $message['subject'] = $params['subject'];
+    $message['body']    = $params['body'];
+  }
+}
